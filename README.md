@@ -157,7 +157,10 @@ This is a good example of both adding a firewall rule to forward the TCP SSH por
 ```
 
 ### Site Blocking
-This example will provide instructions on how to enable RUT routers' Site Blocking feature and how to add hostnames to the Blacklist or Whitelist using only UCI commands. For the sake of our example lets say that you want to create a Blacklist that excludes access to all sites contained within the list. The sites in question are www.facebook.com, www.youtube.com and 9gag.com.
+
+[Refer to fw3 IPv4 configuration examples](https://openwrt.org/docs/guide-user/firewall/fw3_configurations/fw3_config_examples)
+
+This example will provide instructions on how to enable RUT routers' Site Blocking feature and how to add hostnames to the Blacklist or Whitelist using only UCI commands. For the sake of our example lets say that you want to create a Blacklist that excludes access to all sites contained within the list. The sites in question are **www.facebook.com**, **www.youtube.com** and **9gag.com**.
 
 To achieve such a task, the first relevant piece of required information is the config name, hostblock, where all the necessary configuration settings are stored. The next important thing to know is that each different website must be stored in a separate section of the type block. So we'll need to create a new section and enable each added element. Lets start:
 
@@ -189,4 +192,129 @@ Final steps:
 # luci-reload
 ```
 The first-third steps add hostnames of the websites to be blocked, which are saved under the option host. Each of the first three elements also need to be enabled, therefore, the option enabled is set to 1 next to each host. The fourth step is for enabling the Site Blocking service (by setting the option enabled in section config to 1).
+
+Another approach would be to block the **YouTube** IP range, based on a  custom firewall rules can be generated:  
+**/etc/config/firewall**  
+```
+config rule
+	option name		Block-YouTube-187.189.89.77/16
+	option src		lan
+	option family		ipv4
+	option proto		all
+	option dest		wan
+	option dest_ip		187.189.89.77/16
+	option target		REJECT
+
+config rule
+	option name		Block-YouTube-189.203.0.0/16
+	option src		lan
+	option family		ipv4
+	option proto		all
+	option dest		wan
+	option dest_ip		189.203.0.0/16
+	option target		REJECT
+
+config rule
+	option name		Block-YouTube-64.18.0.0/20
+	option src		lan
+	option family		ipv4
+	option proto		all
+	option dest		wan
+	option dest_ip		64.18.0.0/20
+	option target		REJECT
+
+config rule
+	option name		Block-YouTube-64.233.160.0/19
+	option src		lan
+	option family		ipv4
+	option proto		all
+	option dest		wan
+	option dest_ip		64.233.160.0/19
+	option target		REJECT
+
+config rule
+	option name		Block-YouTube-66.102.0.0/20
+	option src		lan
+	option family		ipv4
+	option proto		all
+	option dest		wan
+	option dest_ip		66.102.0.0/20
+	option target		REJECT
+
+config rule
+	option name		Block-YouTube-66.249.80.0/20
+	option src		lan
+	option family		ipv4
+	option proto		all
+	option dest		wan
+	option dest_ip		66.249.80.0/20
+	option target		REJECT
+
+config rule
+	option name		Block-YouTube-72.14.192.0/18
+	option src		lan
+	option family		ipv4
+	option proto		all
+	option dest		wan
+	option dest_ip		72.14.192.0/18
+	option target		REJECT
+
+config rule
+	option name		Block-YouTube-74.125.0.0/16
+	option src		lan
+	option family		ipv4
+	option proto		all
+	option dest		wan
+	option dest_ip		74.125.0.0/16
+	option target		REJECT
+
+config rule
+	option name		Block-YouTube-173.194.0.0/16
+	option src		lan
+	option family		ipv4
+	option proto		all
+	option dest		wan
+	option dest_ip		173.194.0.0/16
+	option target		REJECT
+
+config rule
+	option name		Block-YouTube-207.126.144.0/20
+	option src		lan
+	option family		ipv4
+	option proto		all
+	option dest		wan
+	option dest_ip		207.126.144.0/20
+	option target		REJECT
+
+config rule
+	option name		Block-YouTube-209.85.128.0/17
+	option src		lan
+	option family		ipv4
+	option proto		all
+	option dest		wan
+	option dest_ip		209.85.128.0/17
+	option target		REJECT
+
+config rule
+	option name		Block-YouTube-216.58.208.0/20
+	option src		lan
+	option family		ipv4
+	option proto		all
+	option dest		wan
+	option dest_ip		216.58.208.0/20
+	option target		REJECT
+
+config rule
+	option name		Block-YouTube-216.239.32.0/19
+	option src		lan
+	option family		ipv4
+	option proto		all
+	option dest		wan
+	option dest_ip		216.239.32.0/19
+	option target		REJECT
+```
+And so on for all IP ranges, be sure to restart the firewall service to apply the changes.
+```
+# /etc/init.d/firewall restart
+```
 
