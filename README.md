@@ -336,12 +336,13 @@ make
 ```
 
 Modify OPKG-Configuration  **/etc/opkg/customfeeds.conf**  
+replace **IP_ADDRESS:PORT** by your web server parameter.
 ```shell
-echo "src/gz openwrt_core http://192.168.1.x:8080/downloads.openwrt.org/releases/19.07.0-rc2/targets/ar71xx/generic/packages">/etc/opkg/customfeeds.conf
-echo "src/gz openwrt_base http://192.168.1.x:8080/downloads.openwrt.org/releases/packages-19.07/mipsel_24kc/base">>/etc/opkg/customfeeds.conf
-echo "src/gz openwrt_luci http://192.168.1.x:8080/downloads.openwrt.org/releases/packages-19.07/mipsel_24kc/luci">>/etc/opkg/customfeeds.conf
-echo "src/gz openwrt_packages http://192.168.1.x:8080/downloads.openwrt.org/releases/packages-19.07/mipsel_24kc/packages">>/etc/opkg/customfeeds.conf
-echo "src/gz openwrt_routing http://192.168.1.x:8080/downloads.openwrt.org/releases/packages-19.07/mipsel_24kc/routing">>/etc/opkg/customfeeds.conf
-echo "src/gz openwrt_telephony http://192.168.1.x:8080/downloads.openwrt.org/releases/packages-19.07/mipsel_24kc/telephony">>/etc/opkg/customfeeds.conf
+echo "src/gz openwrt_core http://IP_ADDRESS:PORT/downloads.openwrt.org/releases/19.07.0-rc2/targets/ar71xx/generic/packages">/etc/opkg/customfeeds.conf
+echo "src/gz openwrt_base http://IP_ADDRESS:PORT/downloads.openwrt.org/releases/packages-19.07/mipsel_24kc/base">>/etc/opkg/customfeeds.conf
+echo "src/gz openwrt_luci http://IP_ADDRESS:PORT/downloads.openwrt.org/releases/packages-19.07/mipsel_24kc/luci">>/etc/opkg/customfeeds.conf
+echo "src/gz openwrt_packages http://IP_ADDRESS:PORT/downloads.openwrt.org/releases/packages-19.07/mipsel_24kc/packages">>/etc/opkg/customfeeds.conf
+echo "src/gz openwrt_routing http://IP_ADDRESS:PORT/downloads.openwrt.org/releases/packages-19.07/mipsel_24kc/routing">>/etc/opkg/customfeeds.conf
+echo "src/gz openwrt_telephony http://IP_ADDRESS:PORT/downloads.openwrt.org/releases/packages-19.07/mipsel_24kc/telephony">>/etc/opkg/customfeeds.conf
 
 ```
