@@ -320,6 +320,8 @@ And so on for all IP ranges, be sure to restart the firewall service to apply th
 
 ## Setup mirror of Openwrt package repository
 Suppose we need a local package repository, 19.07 branch of newif
+[rsync url refer to officiel documentation Mirrors](https://openwrt.org/downloads#mirrors)  
+create and run **mirror-opkg-repositories.sh** script to download all nesisiry packages. 
 
 ```shell
 #!/bin/bash
