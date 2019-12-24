@@ -98,7 +98,7 @@ If the device has ethernet ports, the wireless is turned **OFF** by default. You
 A minimal example for a wifi-iface declaration is given below.
 ```
 config 'wifi-iface'
-	option 'device'     'wl0'
+	option 'device'     'radio0'
 	option 'network'    'lan'
 	option 'mode'       'ap'
 	option 'ssid'       'MyWifiAP'
@@ -314,7 +314,34 @@ config rule
 	option target		REJECT
 ```
 And so on for all IP ranges, be sure to restart the firewall service to apply the changes.
-```
+```shell
 # /etc/init.d/firewall restart
 ```
 
+## Setup mirror of Openwrt package repository
+Suppose we need a local package repository, 19.07 branch of newif
+
+```shell
+mkdir -p ~/mirror/openwrt && cd ~/mirror/openwrt
+wget -m –no-parent -e robots=off --reject="index.html*" https://downloads.openwrt.org/releases/19.07.0-rc2/targets/ar71xx/generic/packages/
+wget -m –no-parent -e robots=off --reject="index.html*" https://downloads.openwrt.org/releases/packages-19.07/mipsel_24kc/
+```
+
+Install web server ( darkhttpd )  
+```shell
+git clone https://unix4lyfe.org/git/darkhttpd ~/mirror/darkhttpd
+cd ~/mirror/darkhttpd
+make
+~/mirror/darkhttpd/darkhttpd ~/mirror/openwrt
+```
+
+Modify OPKG-Configuration  **/etc/opkg/customfeeds.conf**  
+```shell
+echo "src/gz openwrt_core http://192.168.1.x:8080/downloads.openwrt.org/releases/19.07.0-rc2/targets/ar71xx/generic/packages">/etc/opkg/customfeeds.conf
+echo "src/gz openwrt_base http://192.168.1.x:8080/downloads.openwrt.org/releases/packages-19.07/mipsel_24kc/base">>/etc/opkg/customfeeds.conf
+echo "src/gz openwrt_luci http://192.168.1.x:8080/downloads.openwrt.org/releases/packages-19.07/mipsel_24kc/luci">>/etc/opkg/customfeeds.conf
+echo "src/gz openwrt_packages http://192.168.1.x:8080/downloads.openwrt.org/releases/packages-19.07/mipsel_24kc/packages">>/etc/opkg/customfeeds.conf
+echo "src/gz openwrt_routing http://192.168.1.x:8080/downloads.openwrt.org/releases/packages-19.07/mipsel_24kc/routing">>/etc/opkg/customfeeds.conf
+echo "src/gz openwrt_telephony http://192.168.1.x:8080/downloads.openwrt.org/releases/packages-19.07/mipsel_24kc/telephony">>/etc/opkg/customfeeds.conf
+
+```
