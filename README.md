@@ -322,9 +322,18 @@ And so on for all IP ranges, be sure to restart the firewall service to apply th
 Suppose we need a local package repository, 19.07 branch of newif
 
 ```shell
-mkdir -p ~/mirror/openwrt && cd ~/mirror/openwrt
-wget -m –no-parent -e robots=off --reject="index.html*" https://downloads.openwrt.org/releases/19.07.0-rc2/targets/ar71xx/generic/packages/
-wget -m –no-parent -e robots=off --reject="index.html*" https://downloads.openwrt.org/releases/packages-19.07/mipsel_24kc/
+BASEURL="downloads.openwrt.org/downloads/releases/"
+TARGET="ar71xx"
+ARCH="mipsel_24kc"
+VERSION="19.07.0-rc2"
+
+mkdir -p ~/mirror/openwrt/$VERSION/ && cd ~/mirror/openwrt/$VERSION/
+rsync -avz --delete --progress rsync://$BASEURL/$VERSION/targets/$TARGET/generic/packages/ ./core
+rsync -avz --delete --progress rsync://$BASEURL/$VERSION/packages/$ARCH/base ./
+rsync -avz --delete --progress rsync://$BASEURL/$VERSION/packages/$ARCH/luci ./
+rsync -avz --delete --progress rsync://$BASEURL/$VERSION/packages/$ARCH/packages ./
+rsync -avz --delete --progress rsync://$BASEURL/$VERSION/packages/$ARCH/routing ./
+rsync -avz --delete --progress rsync://$BASEURL/$VERSION/packages/$ARCH/telephony ./
 ```
 
 Install web server ( darkhttpd )  
@@ -338,11 +347,11 @@ make
 Modify OPKG-Configuration  **/etc/opkg/customfeeds.conf**  
 replace **IP_ADDRESS:PORT** by your web server parameter.
 ```shell
-echo "src/gz openwrt_core http://IP_ADDRESS:PORT/downloads.openwrt.org/releases/19.07.0-rc2/targets/ar71xx/generic/packages">/etc/opkg/customfeeds.conf
-echo "src/gz openwrt_base http://IP_ADDRESS:PORT/downloads.openwrt.org/releases/packages-19.07/mipsel_24kc/base">>/etc/opkg/customfeeds.conf
-echo "src/gz openwrt_luci http://IP_ADDRESS:PORT/downloads.openwrt.org/releases/packages-19.07/mipsel_24kc/luci">>/etc/opkg/customfeeds.conf
-echo "src/gz openwrt_packages http://IP_ADDRESS:PORT/downloads.openwrt.org/releases/packages-19.07/mipsel_24kc/packages">>/etc/opkg/customfeeds.conf
-echo "src/gz openwrt_routing http://IP_ADDRESS:PORT/downloads.openwrt.org/releases/packages-19.07/mipsel_24kc/routing">>/etc/opkg/customfeeds.conf
-echo "src/gz openwrt_telephony http://IP_ADDRESS:PORT/downloads.openwrt.org/releases/packages-19.07/mipsel_24kc/telephony">>/etc/opkg/customfeeds.conf
+echo "src/gz openwrt_core http://IP_ADDRESS:PORT/19.07.0-rc2/core">/etc/opkg/customfeeds.conf
+echo "src/gz openwrt_base http://IP_ADDRESS:PORT/19.07.0-rc2/base">>/etc/opkg/customfeeds.conf
+echo "src/gz openwrt_luci http://IP_ADDRESS:PORT/19.07.0-rc2/luci">>/etc/opkg/customfeeds.conf
+echo "src/gz openwrt_packages http://IP_ADDRESS:PORT/19.07.0-rc2/packages">>/etc/opkg/customfeeds.conf
+echo "src/gz openwrt_routing http://IP_ADDRESS:PORT/19.07.0-rc2/routing">>/etc/opkg/customfeeds.conf
+echo "src/gz openwrt_telephony http://IP_ADDRESS:PORT/19.07.0-rc2/telephony">>/etc/opkg/customfeeds.conf
 
 ```
