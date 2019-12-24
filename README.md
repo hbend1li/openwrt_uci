@@ -319,9 +319,9 @@ And so on for all IP ranges, be sure to restart the firewall service to apply th
 ```
 
 ## Setup mirror of Openwrt package repository
-Suppose we need a local package repository, 19.07 branch of newif
+Suppose we need a local package repository, 19.07 branch of newif  
 [rsync url refer to officiel documentation Mirrors](https://openwrt.org/downloads#mirrors)  
-create and run **mirror-opkg-repositories.sh** script to download all nesisiry packages. 
+create and run **openwrt-mirror-opkg-repositories.sh** script to download all nesisiry packages. 
 
 ```shell
 #!/bin/bash
@@ -330,14 +330,15 @@ VERSION="19.07.0-rc2"
 TARGET="ar71xx"
 ARCH="mipsel_24kc"
 RSYNC="rsync -avz --delete --progress"
+BASEDIR="./openwrt/$VERSION"
 
-mkdir -p ~/mirror/openwrt/$VERSION/ && cd ~/mirror/openwrt/$VERSION/
-$RSYNC $BASEURL/$VERSION/targets/$TARGET/generic/packages/ ./core
-$RSYNC $BASEURL/$VERSION/packages/$ARCH/base ./
-$RSYNC $BASEURL/$VERSION/packages/$ARCH/luci ./
-$RSYNC $BASEURL/$VERSION/packages/$ARCH/packages ./
-$RSYNC $BASEURL/$VERSION/packages/$ARCH/routing ./
-$RSYNC $BASEURL/$VERSION/packages/$ARCH/telephony ./
+mkdir -p $BASEDIR
+$RSYNC $BASEURL/$VERSION/targets/$TARGET/generic/packages/ $BASEDIR/core
+$RSYNC $BASEURL/$VERSION/packages/$ARCH/base $BASEDIR/
+$RSYNC $BASEURL/$VERSION/packages/$ARCH/luci $BASEDIR/
+$RSYNC $BASEURL/$VERSION/packages/$ARCH/packages $BASEDIR/
+$RSYNC $BASEURL/$VERSION/packages/$ARCH/routing $BASEDIR/
+$RSYNC $BASEURL/$VERSION/packages/$ARCH/telephony $BASEDIR/
 ```
 
 Install web server ( darkhttpd )  
