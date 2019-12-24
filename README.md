@@ -327,14 +327,15 @@ BASEURL="rsync://downloads.openwrt.org/downloads/releases"
 VERSION="19.07.0-rc2"
 TARGET="ar71xx"
 ARCH="mipsel_24kc"
+RSYNC="rsync -avz --delete --progress"
 
 mkdir -p ~/mirror/openwrt/$VERSION/ && cd ~/mirror/openwrt/$VERSION/
-rsync -avz --delete --progress $BASEURL/$VERSION/targets/$TARGET/generic/packages/ ./core
-rsync -avz --delete --progress $BASEURL/$VERSION/packages/$ARCH/base ./
-rsync -avz --delete --progress $BASEURL/$VERSION/packages/$ARCH/luci ./
-rsync -avz --delete --progress $BASEURL/$VERSION/packages/$ARCH/packages ./
-rsync -avz --delete --progress $BASEURL/$VERSION/packages/$ARCH/routing ./
-rsync -avz --delete --progress $BASEURL/$VERSION/packages/$ARCH/telephony ./
+$RSYNC $BASEURL/$VERSION/targets/$TARGET/generic/packages/ ./core
+$RSYNC $BASEURL/$VERSION/packages/$ARCH/base ./
+$RSYNC $BASEURL/$VERSION/packages/$ARCH/luci ./
+$RSYNC $BASEURL/$VERSION/packages/$ARCH/packages ./
+$RSYNC $BASEURL/$VERSION/packages/$ARCH/routing ./
+$RSYNC $BASEURL/$VERSION/packages/$ARCH/telephony ./
 ```
 
 Install web server ( darkhttpd )  
