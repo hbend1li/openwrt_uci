@@ -322,18 +322,19 @@ And so on for all IP ranges, be sure to restart the firewall service to apply th
 Suppose we need a local package repository, 19.07 branch of newif
 
 ```shell
-BASEURL="downloads.openwrt.org/downloads/releases/"
+#!/bin/bash
+BASEURL="rsync://downloads.openwrt.org/downloads/releases"
+VERSION="19.07.0-rc2"
 TARGET="ar71xx"
 ARCH="mipsel_24kc"
-VERSION="19.07.0-rc2"
 
 mkdir -p ~/mirror/openwrt/$VERSION/ && cd ~/mirror/openwrt/$VERSION/
-rsync -avz --delete --progress rsync://$BASEURL/$VERSION/targets/$TARGET/generic/packages/ ./core
-rsync -avz --delete --progress rsync://$BASEURL/$VERSION/packages/$ARCH/base ./
-rsync -avz --delete --progress rsync://$BASEURL/$VERSION/packages/$ARCH/luci ./
-rsync -avz --delete --progress rsync://$BASEURL/$VERSION/packages/$ARCH/packages ./
-rsync -avz --delete --progress rsync://$BASEURL/$VERSION/packages/$ARCH/routing ./
-rsync -avz --delete --progress rsync://$BASEURL/$VERSION/packages/$ARCH/telephony ./
+rsync -avz --delete --progress $BASEURL/$VERSION/targets/$TARGET/generic/packages/ ./core
+rsync -avz --delete --progress $BASEURL/$VERSION/packages/$ARCH/base ./
+rsync -avz --delete --progress $BASEURL/$VERSION/packages/$ARCH/luci ./
+rsync -avz --delete --progress $BASEURL/$VERSION/packages/$ARCH/packages ./
+rsync -avz --delete --progress $BASEURL/$VERSION/packages/$ARCH/routing ./
+rsync -avz --delete --progress $BASEURL/$VERSION/packages/$ARCH/telephony ./
 ```
 
 Install web server ( darkhttpd )  
